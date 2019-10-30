@@ -1,0 +1,58 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+html,body{
+	height: 100%;
+	width: 100%;
+}
+#backgroud{
+	background: url(../img/QQ图片20190722170741.jpg);
+	width:100%;
+	height: 100%;
+	color: blueviolet;
+	background-image: linear-gradient(to bottom right, #17c9e5, #c41ddf);
+	float: right;
+	
+}
+
+#main{
+	border: 1px solid #FFFF00;
+	background-color:#fff;
+	background-image: linear-gradient(to bottom right,#c41ddf, #17c9e5);
+	text-align: center;
+	width:500px;
+	height:300px;
+	padding: 0px;
+	margin: auto;
+	margin-top: 120px;
+	/* opacity:5; */
+	box-shadow: 12px 12px 6px #000;
+}
+#s{
+	line-height:60px;
+	text-align:center ;
+	font-size:x-large;
+	width: 100%;
+	height: 60px;
+	background:#CCCCCC;
+	color:#ff5722; 
+	/* text-shadow: 0px 10px 8px #C41DDF; */
+	letter-spacing:45px;
+	font-weight: bolder;
+	font-family: "宋体";
+}
+#z{
+	margin-top:25px ;
+	width: 100% ;
+	
+}
+#inout{
+	margin-bottom: 25px;
+}
+#password{
+	margin-bottom: 12px;
+}
+#button{
+	margin-bottom: 12px;
+}

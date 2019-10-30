@@ -1,0 +1,301 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	color: #999;
+	font-size: 12px;
+}
+
+ul li {
+	list-style: none;
+	float: left;
+}
+
+a {
+	text-decoration: none;
+}
+
+#shopping_market {
+	width: 100%;
+}
+
+#shopping_market .top {
+	width: 100%;
+	background-color: rgb(242, 242, 242);
+}
+
+/* 导航栏开始 */
+#shopping_market .top .nav {
+	width: 1200px;
+	height: 36px;
+	margin: 0 auto;
+	/* background-color: red; */
+	position: relative;
+	overflow: hidden;
+}
+
+#shopping_market .top .nav ul {
+	position: absolute;
+}
+
+#shopping_market .top .nav ul>li {
+	width: 90px;
+	line-height: 36px;
+	cursor: pointer;
+}
+
+#shopping_market .top .nav ul>li>a {
+	color: #999;
+}
+
+#shopping_market .top .nav ul>li:hover,
+#shopping_market .top .nav ul>li>a:hover {
+	color: red;
+}
+
+#shopping_market .top .nav ul>li:nth-child(4) {
+	position: absolute;
+	right: -535px;
+}
+#shopping_market .top .nav ul>li:nth-child(5) {
+	position: absolute;
+	right: -595px;
+}
+
+#shopping_market .top_bottom {
+	width: 100%;
+	background-color: white;
+}
+
+/* 搜索框及logo开始 */
+#shopping_market .top .search {
+	width: 1200px;
+	margin: 0 auto;
+	height: 150px;
+	position: relative;
+	overflow: hidden;
+}
+
+#shopping_market .top .search .search_left {
+	float: left;
+	cursor: pointer;
+}
+
+#shopping_market .top .search .search_right {
+	float: right;
+	position: absolute;
+	top: 35px;
+	right: 70px;
+	overflow: hidden;
+}
+
+#shopping_market .top .search .search_right input[type=text] {
+	width: 450px;
+	height: 40px;
+	box-sizing: border-box;
+	border: 2px red solid;
+	padding: 10px;
+}
+
+#shopping_market .top .search .search_right .sousuo {
+	width: 90px;
+	height: 40px;
+	background-color: red;
+	float: right;
+	box-sizing: border-box;
+	color: white;
+	font-size: 15px;
+	text-align: center;
+	line-height: 40px;
+	border: none;
+}
+#shopping_market .top .search .search_right ul{
+	overflow: hidden;
+}
+#shopping_market .top .search .search_right li {
+	margin-top: 3px;
+	width: 60px;
+	border-right: 1px #999999 solid;
+	box-sizing: border-box;
+	text-align: center;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+#shopping_market .top .search .search_right li:hover {
+	color: red;
+}
+
+#shopping_market .top .search .search_right li:last-child {
+	border-right: none;
+}
+
+/* 商品信息导航栏开始 */
+#shopping_market .top .search .bottom_nav {
+	width: 100%;
+	height: 30px;
+	/* background-color: lightblue; */
+	position: absolute;
+	bottom: 0;
+}
+
+#shopping_market .top .search .bottom_nav .bottom_nav_left {
+	width: 270px;
+	height: 100%;
+	background-color: red;
+	float: left;
+}
+
+#shopping_market .top .search .bottom_nav .bottom_nav_left p {
+	text-align: center;
+	line-height: 30px;
+	color: white;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#shopping_market .top .search .bottom_nav .bottom_nav_right {
+	float: left;
+}
+
+#shopping_market .top .search .bottom_nav .bottom_nav_right ul>li {
+	width: 100px;
+	line-height: 30px;
+	color: #000;
+	font-size: 15px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#shopping_market .top .search .bottom_nav .bottom_nav_right ul>li:hover {
+	color: red;
+}
+
+#shopping_market .top .search .bottom_nav .bottom_nav_right ul>.space {
+	width: 2px;
+	height: 15px;
+	background-color: #999;
+	margin-top: 7px;
+}
+
+/* 商品信息列表及轮播图开始 */
+#shopping_market .middle {
+	width: 100%;
+	height: 700px;
+	background-color: rgb(242, 242, 242);
+}
+
+#shopping_market .middle .content {
+	width: 1200px;
+	height: 100%;
+	position: relative;
+	margin: 0 auto;
+}
+
+#shopping_market .middle .content .middle_left {
+	width: 270px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 500px;
+	overflow: hidden;
+}
+
+#shopping_market .middle .content .middle_left ul>li {
+	/* float: none; */
+	width: 270px;
+	height: 60px;
+	cursor: pointer;
+}
+
+#shopping_market .middle .content .middle_left ul>li .menu_left {
+	width: 60px;
+	height: 100%;
+	line-height: 60px;
+	text-align: center;
+	color: white;
+	font-size: 15px;
+	background-color: rgb(44, 44, 44);
+	float: left;
+}
+
+#shopping_market .middle .content .middle_left ul>li .menu_right {
+	width: 210px;
+	height: 60px;
+	border-bottom: 1px #999 solid;
+	box-sizing: border-box;
+	color: black;
+	float: right;
+	padding-left: 15px;
+}
+
+#shopping_market .middle .content .middle_left ul>li .menu_right .second_menu {
+	margin-top: 10px;
+	margin-right: 10px;
+	display: inline-block;
+}
+
+#shopping_market .middle .content .middle_left ul>li .menu_right .second_menu a {
+	color: #808080;
+	font-size: 13px;
+}
+
+#shopping_market .middle .content .middle_left ul>li .menu_right .second_menu a:hover {
+	color: red;
+}
+
+/* 轮播图开始 */
+#shopping_market .middle .content .middle_lunbo {
+	width: 720px;
+	height: 300px;
+	position: absolute;
+	top: 0;
+	left: 270px;
+	background-color: khaki;
+}
+
+/* 底部开始 */
+#shopping_market .bottom {
+	width: 100%;
+	background-color: black;
+	height: 50px;
+	border-top: 2px #FF0000 solid;
+}
+
+#shopping_market .bottom .bottom_content {
+	width: 1200px;
+	height: 50px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+#shopping_market .bottom .bottom_content .find_me {
+	width: 100%;
+	height: 20px;
+	overflow: hidden;
+}
+
+#shopping_market .bottom .bottom_content .find_me ul {
+	margin-left: 300px;
+}
+
+#shopping_market .bottom .bottom_content .find_me ul>li {
+	width: 60px;
+	text-align: center;
+}
+
+#shopping_market .bottom .bottom_content .find_me ul>li a {
+	color: white;
+}
+
+#shopping_market .bottom .bottom_content .find_me ul>li a:hover {
+	color: red;
+}
+
+#shopping_market .bottom .bottom_content .loyer {
+	text-align: center;
+	margin-top: 10px;
+	overflow: hidden;
+}

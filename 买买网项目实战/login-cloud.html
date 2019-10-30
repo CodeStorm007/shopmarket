@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+	<head>
+		<title>买买网用户登录</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="http://dreamsky.github.io/main/blog/common/init.css">
+		<meta charset="utf-8">
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<link rel="stylesheet" type="text/css" href="css/login-cloud.css">
+		<style type="text/css">
+			body {
+				background-color: #326696;
+				margin: 0px;
+				overflow: hidden;
+				font-family: Monospace;
+				font-size: 13px;
+				text-align: center;
+				font-weight: bold;
+			}
+
+			a {
+				color: #0078ff;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript" src="assets/three.min.js"></script>
+		<script type="text/javascript" src="assets/Detector.js"></script>
+		<div id="main">
+			<div id="s">
+				<h2>欢迎登录</h2>
+			</div>
+			<div id="z">
+				<div id="input" style="margin-top: 5px;">
+					</el-input><i class="el-icon-user-solid"></i>
+					<el-input placeholder="请输入用户名" v-model="userName" style="width:80%">
+				</div>
+				<div id="password" style="margin-top: 15px;">
+					</el-input><i class="el-icon-warning"></i>
+					<el-input placeholder="请输入密码" v-model="passWord" show-password style="width:80%"></el-input>
+				</div>
+				<div id="mpanel1"></div>
+				<div id="button" style="margin-top:15px">
+					<el-button type="danger" style="width: 239px; height: 35px;line-height: 2px;" @click="login">登录</el-button>
+				</div>
+				<div>
+					<el-link href="register.html" target="_blank">忘记密码</el-link>
+					<el-link href="register.html" target="_blank">免费注册</el-link>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- import Vue before Element -->
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<!-- 引入组件库 -->
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/init.js"></script>
+		<script type="text/javascript">
+			history.go(1);
+		</script>
+		<script type="text/javascript">
+		</script>
+		<script>
+
+			new Vue({
+				el:'#main',
+				data(){
+					return {
+						userName:'',
+						passWord:''
+					}
+				},
+				methods:{
+					
+					login() {
+						axios.get("http://localhost:8080/EShoppingMallBackstage/login.action", {
+							params: {
+								userName: this.userName,
+								passWord: this.passWord
+							}
+						}).then(response => {
+							if (response.data.msg == "用户名不存在") {
+								alert(response.data.msg);
+							} else if (response.data.msg == "密码错误") {
+								alert(response.data.msg);
+							} else if (response.data.msg == "登录成功") {
+								alert(response.data.msg);
+								localStorage.setItem("loginId",response.data.data.userId);//传出用户id
+								localStorage.setItem("loginNickName",response.data.data.userNickName);
+								location.href = "main_index.html";
+							}
+						})
+					}
+				},
+			})
+			</script>
+
+		<script id="vs" type="x-shader/x-vertex">
+
+			varying vec2 vUv;
+
+			void main() {
+
+				vUv = uv;
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+			}
+
+		</script>
+
+		<script id="fs" type="x-shader/x-fragment">
+
+			uniform sampler2D map;
+
+			uniform vec3 fogColor;
+			uniform float fogNear;
+			uniform float fogFar;
+
+			varying vec2 vUv;
+
+			void main() {
+
+				float depth = gl_FragCoord.z / gl_FragCoord.w;
+				float fogFactor = smoothstep( fogNear, fogFar, depth );
+
+				gl_FragColor = texture2D( map, vUv );
+				gl_FragColor.w *= pow( gl_FragCoord.z, 20.0 );
+				gl_FragColor = mix( gl_FragColor, vec4( fogColor, gl_FragColor.w ), fogFactor );
+
+			}
+
+		</script>
+
+		<script type="text/javascript">
+			if (!Detector.webgl) Detector.addGetWebGLMessage();
+
+			var container;
+			var camera, scene, renderer;
+			var mesh, geometry, material;
+
+			var mouseX = 0,
+				mouseY = 0;
+			var start_time = Date.now();
+
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+
+			init();
+
+			function init() {
+
+				container = document.createElement('div');
+				document.body.appendChild(container);
+
+				// Bg gradient
+
+				var canvas = document.createElement('canvas');
+				canvas.width = 32;
+				canvas.height = window.innerHeight;
+
+				var context = canvas.getContext('2d');
+
+				var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+				gradient.addColorStop(0, "#1e4877");
+				gradient.addColorStop(0.5, "#4584b4");
+
+				context.fillStyle = gradient;
+				context.fillRect(0, 0, canvas.width, canvas.height);
+
+				container.style.background = 'url(' + canvas.toDataURL('image/png') + ')';
+				container.style.backgroundSize = '32px 100%';
+
+				//
+
+				camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 3000);
+				camera.position.z = 6000;
+
+				scene = new THREE.Scene();
+
+				geometry = new THREE.Geometry();
+
+				var texture = THREE.ImageUtils.loadTexture('cloud10.png', null, animate);
+				texture.magFilter = THREE.LinearMipMapLinearFilter;
+				texture.minFilter = THREE.LinearMipMapLinearFilter;
+
+				var fog = new THREE.Fog(0x4584b4, -100, 3000);
+
+				material = new THREE.ShaderMaterial({
+
+					uniforms: {
+
+						"map": {
+							type: "t",
+							value: texture
+						},
+						"fogColor": {
+							type: "c",
+							value: fog.color
+						},
+						"fogNear": {
+							type: "f",
+							value: fog.near
+						},
+						"fogFar": {
+							type: "f",
+							value: fog.far
+						},
+
+					},
+					vertexShader: document.getElementById('vs').textContent,
+					fragmentShader: document.getElementById('fs').textContent,
+					depthWrite: false,
+					depthTest: false,
+					transparent: true
+
+				});
+
+				var plane = new THREE.Mesh(new THREE.PlaneGeometry(64, 64));
+
+				for (var i = 0; i < 8000; i++) {
+
+					plane.position.x = Math.random() * 1000 - 500;
+					plane.position.y = -Math.random() * Math.random() * 200 - 15;
+					plane.position.z = i;
+					plane.rotation.z = Math.random() * Math.PI;
+					plane.scale.x = plane.scale.y = Math.random() * Math.random() * 1.5 + 0.5;
+
+					THREE.GeometryUtils.merge(geometry, plane);
+
+				}
+
+				mesh = new THREE.Mesh(geometry, material);
+				scene.add(mesh);
+
+				mesh = new THREE.Mesh(geometry, material);
+				mesh.position.z = -8000;
+				scene.add(mesh);
+
+				renderer = new THREE.WebGLRenderer({
+					antialias: false
+				});
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				container.appendChild(renderer.domElement);
+
+				document.addEventListener('mousemove', onDocumentMouseMove, false);
+				window.addEventListener('resize', onWindowResize, false);
+
+			}
+
+			function onDocumentMouseMove(event) {
+
+				mouseX = (event.clientX - windowHalfX) * 0.25;
+				mouseY = (event.clientY - windowHalfY) * 0.15;
+
+			}
+
+			function onWindowResize(event) {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize(window.innerWidth, window.innerHeight);
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame(animate);
+
+				position = ((Date.now() - start_time) * 0.03) % 8000;
+
+				camera.position.x += (mouseX - camera.position.x) * 0.01;
+				camera.position.y += (-mouseY - camera.position.y) * 0.01;
+				camera.position.z = -position + 8000;
+
+				renderer.render(scene, camera);
+
+			}
+		</script>
+	</body>
+
+</html>

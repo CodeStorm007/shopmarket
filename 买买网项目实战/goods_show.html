@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<!-- 商品列表 -->
+	<head>
+		<meta charset="utf-8">
+		<title>买买网，想买就买</title>
+		<!-- 标题栏图标设置 -->
+		<link rel='icon' href='img/title_logo.ico' type='image/x-ico' />
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<link rel="stylesheet" type="text/css" href="css/main_css.css" />
+		<link rel="stylesheet" type="text/css" href="css/goods_css.css" />
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" language="JavaScript">
+			$(document).ready(function() {
+				// window.history.forward(1);
+				window.history.forward(-1);
+
+				var u = localStorage.getItem("loginNickName");
+				if (u != null) {
+					$(function() {
+						$("#aa").append("<a>退出登陆</a>");
+						$("#loginName").empty();
+						$("#loginName").text("欢迎您，" + u);
+						$("#order").append("<a href='order.html'>我的订单</a>");
+					});
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div id="shopping_market">
+			<!-- 导航栏开始 -->
+			<div class="top">
+				<div class="nav">
+					<ul>
+						<li id="loginName"><a href="login-cloud.html">请登录</a></li>
+						<li><a href="register.html">免费注册</a></li>
+						<li id="aa" @click="exitLogin"></li>
+						<li @click="shoppingCar()">购物车</li>
+						<li id="order"></li>
+					</ul>
+				</div>
+				<!-- 搜索栏开始 -->
+				<div class="top_bottom">
+					<div class="search">
+						<div class="search_left">
+							<a href="main_index.html"><img src="img/logo.png" alt="买买网" title="点我有惊喜"></a>
+						</div>
+						<div class="search_right">
+							<input type="text" v-model="key" placeholder="请输入商品名" @keyup="confirmValid()" /><button class="sousuo" @click="mohu()"
+							 :disabled="isKey">搜索</button>
+							<ul>
+								<li>运动鞋</li>
+								<li>手机</li>
+								<li>牛奶</li>
+								<li>仿真花</li>
+								<li>连衣裙</li>
+								<li>摄像头</li>
+								<li>针织衫</li>
+								<li>四件套</li>
+								<li>客厅灯</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 商品显示 -->
+			<div class="middle">
+				<div class="content">
+					<ul>
+						<li v-for="p in productlist">
+							<!-- 整个商品就是个超链接，可以跳转到商品详情/商品购买页面 -->
+							<a :href=`goods_info.html?productId=${p.productId}`>
+								<div class="product_picture">
+									<img width='200px' height="220px" :src=`http://localhost:8080/img/${p.productPicture}` alt="找不到图片">
+								</div>
+								<p class="product_price">￥{{p.productPrice}}</p>
+								<p class="product_info" :title=`${p.productDescription}`>{{p.productDescription}}</p>
+							</a>
+
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 底部开始 -->
+			<div class="bottom">
+				<div class="bottom_content">
+					<div class="find_me">
+						<ul>
+							<li><a href="">关于本网</a></li>
+							<li><a href="">帮助中心</a></li>
+							<li><a href="">开放平台</a></li>
+							<li><a href="">诚聘英才</a></li>
+							<li><a href="">联系我们</a></li>
+							<li><a href="">网站合作</a></li>
+							<li><a href="">法律声明</a></li>
+							<li><a href="">隐私保护</a></li>
+							<li><a href="">举报入口</a></li>
+						</ul>
+					</div>
+					<div class="loyer">
+						Copyright &copy; 2019 - 9012 买买 maimai.com 版权所有
+					</div>
+				</div>
+			</div>
+			<!-- 返回顶部效果 -->
+			<template>
+				<el-backtop :bottom="100">
+					<div style="{
+			        height: 100%;
+			        width: 100%;
+			        background-color: #CE0000;
+			        box-shadow: 0 0 6px rgba(0,0,0, .12);
+			        text-align: center;
+			        line-height: 40px;
+			        color: white;
+			      }">
+						UP
+					</div>
+				</el-backtop>
+			</template>
+		</div>
+		<!-- 引入组件库 -->
+		<script type="text/javascript" src="js/vue.min.js"></script>
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<script type="text/javascript" src="js/axios.min.js"></script>
+		<script type="text/javascript">
+			//获取地址栏参数的方法
+			function getQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]);
+				return null;
+			}
+			var _t = getQueryString("key"); //获取地址栏参数
+			var key2 = decodeURI(_t); //只需要转一次码
+			// 获取首页传过来的分类id
+			var url = location.href;
+			var ceshi = url.substring(url.indexOf("?") + 1, url.indexOf("="));
+			if (ceshi != "key") {
+				var category_id = parseInt(url.substr(url.indexOf("=") + 1));
+				// alert(category_id);
+			} else {
+				var category_id = 0;
+			}
+
+			new Vue({
+				el: "#shopping_market",
+				data: {
+					key: "",
+					key2: "",
+					isKey: true,
+					category_id: 0,
+					productlist: null
+				},
+				methods: {
+					mohu() {
+						axios.get('http://localhost:8080/EShoppingMallBackstage/productInfo/search.action', {
+							params: {
+								key: this.key
+							},
+						}).then(response => {
+							this.productlist = response.data;
+						})
+					},
+					//退出登陆
+					exitLogin() {
+						localStorage.removeItem("loginNickName");
+						localStorage.removeItem("loginId");
+						location.href = "main_index.html";
+					},
+					//购物车访问
+					shoppingCar() {
+						if (localStorage.getItem("loginNickName") == null) {
+							location.href = "login-cloud.html";
+						} else {
+							location.href = "shoppingCart.html";
+						}
+					},
+					// 搜索栏验证用户是否输入内容
+					confirmValid() {
+						if (this.key != "") {
+							this.isKey = false;
+						}
+					}
+				},
+				mounted() {
+					if (category_id != 0) {
+						axios.get('http://localhost:8080/EShoppingMallBackstage/productInfo/queryProductByType.action', {
+							params: {
+								category_id: category_id
+							},
+						}).then(response => {
+							this.productlist = response.data;
+						})
+					} else if (key2 != null) {
+						axios.get('http://localhost:8080/EShoppingMallBackstage/productInfo/search.action', {
+							params: {
+								key: key2
+							},
+						}).then(response => {
+							this.productlist = response.data;
+						})
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

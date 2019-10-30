@@ -1,0 +1,227 @@
+/*全局样式*/
+* {
+	padding: 0;
+	margin: 0
+}
+
+li {
+	list-style: none
+}
+
+
+
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	position: relative;
+	width: 1000px;
+	min-height: 1000px;
+	-webkit-font-smoothing: antialiased;
+	background-color: #f6f6f6;
+	font: 12px/1.5 Microsoft YaHei, tahoma, arial, Hiragino Sans GB, \\5b8b\4f53, sans-serif;
+	color: #666
+}
+
+.font_red {
+	color: red
+}
+
+
+#top {
+	height: 170px;
+}
+
+#menu {
+	width: 1000px;
+	height: 30px;
+	float: right;
+	line-height: 30px;
+	color: #999;
+	border-bottom: 1px solid #ddd;
+	background-color: #e3e4e5;
+}
+
+#menu li {
+	float: left;
+	width: 80px;
+	text-align: center
+}
+
+#menu_add {
+	float: left;
+	height: 28px;
+	margin-left: 7px
+}
+
+#menu_hello {
+	float: left;
+	margin-left: 100px
+}
+
+#menu .menu_li {
+	overflow: hidden;
+	margin: 11px 5px 0;
+	width: 1px;
+	height: 10px;
+	background-color: #ccc;
+}
+
+#search {
+	width: 1000px;
+	height: 100px;
+	float: right;
+}
+
+#search_top {
+	margin-top: 27px;
+}
+
+.search_logo {
+	float: left;
+	width: 980px;
+	height: 90px;
+}
+
+.search_logo img {
+	width: 100px;
+	height: 90px;
+}
+
+#search input {
+	padding: 4px;
+	width: 380px;
+	height: 25px;
+	border: 1px solid #f10215;
+	line-height: 25px;
+	font-size: 14px;
+	color: #989898;
+	margin-left: 480px;
+	margin-top: -100px;
+	float: left
+}
+
+#search button {
+	width: 60px;
+	height: 35px;
+	border: none;
+	background: red;
+	color: white;
+	float: right;
+	margin-top: -100px;
+	margin-right: 70px;
+}
+
+#body1 {
+	width: 1000px;
+	height: 1000px;
+	background-color: #DDDDDC;
+	border: 1px;
+}
+
+#body1_guan {
+	width: 990px;
+	height: 50px;
+}
+
+#body1_guan p {
+	font-size: 20px;
+	margin-left: 20px;
+	line-height: 50px;
+}
+
+/* #bottom {width: 990px;height: 40px;background-color: #52A0E5;margin-top: 20px;} */
+/* 底部开始 */
+.bottom {
+	width: 100%;
+	background-color: black;
+	height: 50px;
+	border-top: 2px #FF0000 solid;
+	/* position: absolute;
+	bottom: 0;
+	left: 0; */
+}
+
+.bottom .bottom_content {
+	width: 1200px;
+	height: 50px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.bottom .bottom_content .find_me {
+	width: 100%;
+	height: 20px;
+	overflow: hidden;
+}
+
+.bottom .bottom_content .find_me ul {
+	margin-left: 300px;
+}
+
+.bottom .bottom_content .find_me ul>li {
+	width: 60px;
+	text-align: center;
+	float: left;
+}
+
+.bottom .bottom_content .find_me ul>li a {
+	color: white;
+}
+
+.bottom .bottom_content .find_me ul>li a:hover {
+	color: red;
+}
+
+.bottom .bottom_content .loyer {
+	text-align: center;
+	margin-top: 10px;
+	overflow: hidden;
+}
+
+.order {
+	width: 800px;
+	height: 1000px;
+}
+
+.ordertopone {
+	width: 800px;
+	height: 50px;
+	border-bottom-style: solid;
+	border-color: #E8E8E8;
+	border-width: medium;
+}
+
+.ordermagzi {
+	font-size: 20px;
+	position: relative;
+	left: 10px;
+	top: 10px;
+}
+
+#ordertoptwo {
+	width: 800px;
+	height: 50px;
+}
+
+#topform {
+	position: relative;
+	left: 270px;
+	top: 15px;
+	color: #685B6D;
+}
+
+.ordertopthree {
+	width: 880px;
+	height: 685px;
+	position: absolute;
+	z-index: 1;
+}
+
+.ordertopthree1 {
+	width: 880px;
+	height: 300px;
+	z-index: 2;
+	position: fixed;
+	background-color: #CBCBCB;
+
+}

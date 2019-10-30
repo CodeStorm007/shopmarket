@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- 	引入样式 -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<link rel="stylesheet" type="text/css" href="css/register.css">
+
+		<title></title>
+	</head>
+
+	<body>
+
+		<div id="register">
+			<myelement />
+		</div>
+
+		<template id="element">
+			<div class="block">
+				<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" status-icon>
+					<el-form-item label="姓名 :" prop="userName">
+						<el-input v-model="ruleForm.userName"></el-input>
+					</el-form-item>
+					<el-form-item label="昵称 :" prop="userNickName">
+						<el-input v-model="ruleForm.userNickName"></el-input>
+					</el-form-item>
+					<el-form-item label="性别 :" prop="userSex">
+						<el-radio-group v-model="ruleForm.userSex">
+							<el-radio label="1">男</el-radio>
+							<el-radio label="0">女</el-radio>
+						</el-radio-group>
+					</el-form-item>
+					<!-- 性别：<input type="radio" value="1" name="userSex" v-model="ruleForm.userSex"/>男<input type="radio" value="0" name="userSex" v-model="ruleForm.userSex"/>女 -->
+					<el-form-item label="电话 :" prop="userMobile">
+						<el-input v-model="ruleForm.userMobile"></el-input>
+					</el-form-item>
+					<el-form-item label="地址" prop="userAddress">
+						<el-input type="textarea" v-model="ruleForm.userAddress"></el-input>
+					</el-form-item>
+					<el-form-item prop="userEmail" label="邮箱" :rules="[
+					      { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+					      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+					    ]">
+						<el-input v-model="ruleForm.userEmail"></el-input>
+					</el-form-item>
+					<el-form-item label="密码" prop="pass">
+						<el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="确认密码" prop="passWord">
+						<el-input type="password" v-model="ruleForm.passWord" autocomplete="off"></el-input>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+						<el-button @click="resetForm('ruleForm')">重置</el-button>
+					</el-form-item>
+
+				</el-form>
+			</div>
+		</template>
+
+	</body>
+
+	<!--import Vue before Element -->
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<!--引入组件库 -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script type="text/javascript" src="js/axios.min.js"></script>
+	<script type="text/javascript">
+		history.go(1); 
+	</script> 
+	<script>
+		new Vue({
+			el: "#register",
+			data() {
+				return {
+					aa: '12'
+				}
+			},
+			components: {
+				'myelement': {
+					template: '#element',
+					data() {
+
+						var validatePass = (rule, value, callback) => {
+							if (value === '') {
+								callback(new Error('请输入密码'));
+							} else {
+								if (this.ruleForm.passWord !== '') {
+									this.$refs.ruleForm.validateField('passWord');
+								}
+								callback();
+							}
+						};
+						var validatePass2 = (rule, value, callback) => {
+							if (value === '') {
+								callback(new Error('请再次输入密码'));
+							} else if (value !== this.ruleForm.pass) {
+								callback(new Error('两次输入密码不一致!'));
+							} else {
+								callback();
+							}
+						};
+						return {
+							ruleForm: {
+								userName: '',
+								userNickName: '',
+								userSex: '',
+								userMobile: '',
+								userAddress: '',
+								userEmail: '',
+								pass: '',
+								passWord: '',
+							},
+							rules: {
+								userName: [{
+										required: true,
+										message: '请输入真实姓名',
+										trigger: 'blur'
+									},
+									{
+										min: 2,
+										max: 5,
+										message: '长度在 2 到 5 个字符',
+										trigger: 'blur'
+									}
+								],
+								userNickName: [{
+										required: true,
+										message: '请输入昵称',
+										trigger: 'blur'
+									},
+									{
+										min: 1,
+										max: 5,
+										message: '长度在 1 到 5 个字符',
+										trigger: 'blur'
+									}
+								],
+								userSex: '',
+								userMobile: [{
+										required: true,
+										message: '请输入真实电话',
+										trigger: 'blur'
+									},
+									{
+										min: 5,
+										max: 11,
+										message: '长度在 5到 11 个字符',
+										trigger: 'blur'
+									}
+								],
+								userAddress: [{
+									required: true,
+									message: '请填写地址',
+									trigger: 'blur'
+								}],
+								pass: [{
+									validator: validatePass,
+									trigger: 'blur'
+								}],
+								passWord: [{
+									validator: validatePass2,
+									trigger: 'blur'
+								}]
+							} //rules
+						} //return
+					}, //data
+					methods: {
+						submitForm(formName) {
+							this.$refs[formName].validate((valid) => {
+							          if (valid) {
+							          } else {
+							            console.log('error submit!!');
+										alert('请填写完整信息');
+										 // window.location.replace("http://127.0.0.1:8848/%E4%B9%B0%E4%B9%B0%E7%BD%91%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/register.html");
+							             return false;
+							          }
+							        });
+							axios.get("http://localhost:8080/EShoppingMallBackstage/reg/register.action", {
+								params: {
+									userName: this.ruleForm.userName,
+									passWord: this.ruleForm.passWord,
+									userSex: this.ruleForm.userSex,
+									userMobile: this.ruleForm.userMobile,
+									userAddress: this.ruleForm.userAddress,
+									userEmail: this.ruleForm.userEmail,
+									userNickName: this.ruleForm.userNickName,
+								}
+							}).then(response => {
+								// alert(userName);
+								if (response.data.msg == "用户名已存在！") {
+									alert(response.data.msg);
+								} else if (response.data.msg == "手机号已存在！") {
+									alert(response.data.msg);
+								} else if (response.data.msg == "邮箱地址已存在！") {
+									alert(response.data.msg);
+								} else if (response.data.msg == "昵称已存在！") {
+									alert(response.data.msg);
+								} else if (response.data.msg == "注册成功") {
+									alert(response.data.msg);
+									location.href = "login-cloud.html";
+								} else {
+									console.log('error submit!!');
+									return false;
+								}
+							});
+						},
+						resetForm(formName) {
+							this.$refs[formName].resetFields();
+							
+						}
+					}, //methods
+					
+				} //myelement
+			}
+		}) //new nve
+	</script>
+
+</html>

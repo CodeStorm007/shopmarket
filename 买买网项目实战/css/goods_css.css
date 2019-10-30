@@ -1,0 +1,56 @@
+#shopping_market .middle {
+	height: 1400px;
+	background-color: white;
+}
+
+#shopping_market .middle .content ul li {
+	width: 250px;
+	height: 300px;
+	margin: 0 22px 22px 0;
+	border: 1px rgb(238, 238, 238) solid;
+	float: left;
+	position: relative;
+}
+
+#shopping_market .middle .content ul li:hover {
+	border: 1px rgb(196, 0, 0) solid;
+	cursor: pointer;
+}
+
+#shopping_market .middle .content ul li .product_picture {
+	width: 200px;
+	height: 220px;
+	/* background-color: red; */
+	position: absolute;
+	left: 50%;
+	top: 10px;
+	margin-left: -100px;
+}
+
+#shopping_market .middle .content ul li .product_price {
+	width: 200px;
+	position: absolute;
+	top: 240px;
+	left: 50%;
+	margin-left: -100px;
+	font-size: 14px;
+	color: #FF0000;
+}
+
+#shopping_market .middle .content ul li .product_info {
+	width: 200px;
+	height: 16px;
+	position: absolute;
+	top: 265px;
+	left: 50%;
+	margin-left: -100px;
+	font-size: 12px;
+	color: #000000;
+	overflow: hidden; //截取掉超出本边界的部分
+}
+
+#shopping_market .middle .content ul li .product_info:hover,
+#shopping_market .middle .content ul li .product_price:hover {
+	text-decoration: underline;
+	cursor: pointer; //手型标识
+}

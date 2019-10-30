@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>用户订单</title>
+		<script src="js/vue.js"></script>
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<link rel="stylesheet" href="css/ordercss.css" type="text/css">
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script type="text/javascript" language="JavaScript">
+			$(document).ready(function() {
+				// window.history.forward(1);
+				window.history.forward(-1);
+
+				var u = localStorage.getItem("loginNickName");
+				if (u != null) {
+					$(function() {
+						$("#aa").append("<a>退出登陆</a>");
+						$("#loginName").empty();
+						$("#loginName").text("欢迎您，" + u);
+						$("#order").append("<a href='order.html'>我的订单</a>");
+					});
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			<div id="toptop">
+				<div class="toptop1">
+					<div class="topleft">
+						<!-- <a href="">你好，请登录</a>
+						<a href="">免费注册</a> -->
+						<ul>
+							<li id="loginName"><a href="login-cloud.html">请登录</a></li>
+							<li><a href="register.html">免费注册</a></li>
+							<li id="aa" @click="exitLogin"></li>
+							<li @click="shoppingCar()">购物车</li>
+							<li id="order"></li>
+						</ul>
+					</div>
+					<!-- <div id="topright">
+						<ul>
+							
+						</ul>
+					</div> -->
+				</div>
+			</div>
+			<div id="top">
+				<a href="main_index.html"><img src="img/logo.png" alt="买买网" title="点我有惊喜"></a>
+				<div class="search_right">
+					<input type="text" v-model="key" placeholder="请输入商品名" @keyup="confirmValid" /><button class="sousuo" :disabled="isKey"
+					 @click="mohu">搜索</button>
+				</div>
+			</div>
+			<div class="middle">
+				<div class="middle_content">
+					<div id="left">
+						<ul>
+							<li><a href="" id="gongneng">全部功能</a></li>
+							<li><a href="" class="leftzi">我的购物车</a></li>
+							<li><a href="" id="yimaidao">已买到的宝贝</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">我的拍卖</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">机票酒店保险</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">我的彩票</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">官方集运</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">购买过的店铺</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">我的发票</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">我的收藏</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">我的积分</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">我的优惠</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">评价管理</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">退款维权</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">我的足迹</a></li>
+							<li><a href="" @click="openCenter" class="leftzi">流量钱包</a></li>
+						</ul>
+					</div>
+					<div id="right">
+						<div id="righttop">
+							<div id="righttopzi">
+								<a class="righttopzi" href="">所有订单</a>&nbsp;&nbsp;<span class="shuxian">|</span>&nbsp;&nbsp;
+								<a class="righttopzi" href="">待付款</a>&nbsp;&nbsp;<span class="shuxian">|</span>&nbsp;&nbsp;
+								<a class="righttopzi" href="">待发货</a>&nbsp;&nbsp;<span class="shuxian">|</span>&nbsp;&nbsp;
+								<a class="righttopzi" href="">待收货</a>&nbsp;&nbsp;<span class="shuxian">|</span>&nbsp;&nbsp;
+								<a class="righttopzi" href="">待评价</a>&nbsp;&nbsp;<span class="shuxian">|</span>&nbsp;&nbsp;
+								<a class="righttopzi" href="">分阶段</a>
+								<a href="" id="huishouzhan"><i class="el-icon-delete"></i>订单回收站</a>
+							</div>
+						</div>
+						<div id="rightunder">
+							<div id="rightunderyi">
+								<div class="search_right">
+									<input type="text" v-model="productDescription" placeholder="请输入商品名关键字" /><button class="sousuo" @click="queryProductMsgByPD">搜索</button>
+								</div>
+								<el-dropdown id="tiaojian">
+									<span class="el-dropdown-link">
+										更多筛选条件<i class="el-icon-arrow-down el-icon--right"></i>
+									</span>
+									<el-dropdown-menu slot="dropdown">
+										<el-dropdown-item>店铺名</el-dropdown-item>
+										<el-dropdown-item>订单时间</el-dropdown-item>
+									</el-dropdown-menu>
+								</el-dropdown>
+							</div>
+							<div id="rightunderer">
+								<ul>
+									<li>
+										<span id="baobei" class="danjia">宝贝</span>
+									</li>
+									<li>
+										<span class="danjia">总价</span>
+									</li>
+									<li>
+										<span class="danjia">数量</span>
+									</li>
+									<li>
+										<span class="danjia">商品操作</span>
+									</li>
+									<li>
+										<span class="danjia">实付款</span>
+									</li>
+									<li>
+										<span class="danjia">交易状态 ▼</span>
+									</li>
+									<li>
+										<span class="danjia">交易操作</span>
+									</li>
+								</ul>
+							</div>
+							<div id="rightundersan">
+								<div class="page">
+									<a class="pagezi" href="">上一页</a><a class="pagezi" href="">下一页</a>
+								</div>
+							</div>
+							<span id="noorderlist">没有订单</span>
+							<div id="rightundersi" v-for="m in orderlist">
+
+								<div id="dshang">
+									<span class="dshangleft" id="date">时间：{{m.orderCreateTime}}</span>&nbsp;&nbsp;
+									<span class="dshangleft" id="ordernum">订单号：{{m.orderId}}</span>
+									<div id="kefu"><span id="kefuzi" onclick="">和我联系</span></div>
+									<i id="lajixiang" class="el-icon-delete" @click="open(m.orderId)" title="删除订单"></i>
+								</div>
+								<div id="dzone">
+									<div id="dzoneimg"><img width='100px' height="100px" :src=`http://localhost:8080/img/${m.productPicture}` alt="找不到图片" /></div>
+									<div id="dzonediv"><span id="dzonename">{{m.productDescription}}</span></div>
+									<div id="pricediv"><span id="pricezi">￥{{m.productPrice}}.00</span></div>
+									<div id="numberdiv"><span id="numberzi">X {{m.orderQuantity}}</span></div>
+									<div id="caozuodiv"><span class="caozuozi">申请售后</span><span class="caozuozi">投诉商家</span></div>
+									<div id="dztwo"><span id="tolprice">￥{{m.orderCost}}</span>
+										<div id="yunfei">(含运费：￥0.00)</div>
+									</div>
+									<div id="dzthree">
+										<div id="jiaoyi">
+											<span>交易成功</span><span>订单详情</span><span>查看物流</span>
+										</div>
+									</div>
+									<div id="dzfore">
+										<el-button type="text" @click="pingjiaa"><span id="pingjia">{{pjmsg}}</span></el-button>
+										<el-dialog title="评 价" :visible.sync="dialogFormVisible">
+											<el-form :model="form">
+												<div class="block">
+													<span class="demonstration" id="pingjiaxing">评 价</span>
+													<el-rate id="xingxing" v-model="value2" :colors="colors">
+													</el-rate>
+												</div>
+												<el-form-item label="评价内容" :label-width="formLabelWidth">
+													<el-input v-model="form.name" autocomplete="off"></el-input>
+												</el-form-item>
+											</el-form>
+											<div slot="footer" class="dialog-footer">
+												<el-button @click="dialogFormVisible = false">取 消</el-button>
+												<el-button type="primary" @click="addcomment(m.productId)">确 定</el-button>
+											</div>
+										</el-dialog>
+									</div>
+								</div>
+								<div class="dbaoxian">
+									<span id="baoxian">保险服务</span>
+									<span id="baoxianprice">￥0.00</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 底部开始 -->
+			<div class="bottom">
+				<div class="bottom_content">
+					<div class="find_me">
+						<ul>
+							<li><a href="">关于本网</a></li>
+							<li><a href="">帮助中心</a></li>
+							<li><a href="">开放平台</a></li>
+							<li><a href="">诚聘英才</a></li>
+							<li><a href="">联系我们</a></li>
+							<li><a href="">网站合作</a></li>
+							<li><a href="">法律声明</a></li>
+							<li><a href="">隐私保护</a></li>
+							<li><a href="">举报入口</a></li>
+						</ul>
+					</div>
+					<div class="loyer">
+						Copyright &copy; 2019 - 9012 买买 maimai.com 版权所有
+					</div>
+				</div>
+			</div>
+			<!-- 返回顶部效果 -->
+			<template>
+				<el-backtop :bottom="100">
+					<div style="{
+			        height: 100%;
+			        width: 100%;
+			        background-color: #CE0000;
+			        box-shadow: 0 0 6px rgba(0,0,0, .12);
+			        text-align: center;
+			        line-height: 40px;
+			        color: white;
+			      }">
+						UP
+					</div>
+				</el-backtop>
+			</template>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el: '#app',
+				data: {
+					b: null,
+					key: "",
+					isKey: true,
+					pjmsg: '评 价',
+					orderlist: null,
+					productDescription: "",
+					dialogFormVisible: false,
+					form: {
+						name: '',
+						region: '',
+						date1: '',
+						date2: '',
+						delivery: false,
+						type: [],
+						resource: '',
+						desc: ''
+					},
+					formLabelWidth: '120px',
+					value2: null,
+					colors: ['#99A9BF', '#F7BA2A', '#FF9900']
+				},
+				methods: {
+					open(orderid) {
+						this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+							axios.get('http://localhost:8080/EShoppingMallBackstage/orders/deleteOrders.action', {
+								params: {
+									userId: localStorage.getItem("loginId"),
+									orderId: orderid,
+								}
+							}).then(response => {
+								this.query()
+							})
+							this.$message({
+								type: 'success',
+								message: '删除成功!'
+							});
+						}).catch(() => {
+							this.$message({
+								type: 'info',
+								message: '已取消删除'
+							});
+						});
+					},
+					pingjiaa() {
+						this.dialogFormVisible = true,
+							this.pjmsg = '追加评价'
+					},
+					addcomment(productid) {
+						axios.get('http://localhost:8080/EShoppingMallBackstage/comment/addComment.action', {
+							params: {
+								commentContent: this.form.name,
+								productId: productid,
+								userNickName: localStorage.getItem("loginNickName")
+							}
+						}).then(response => {})
+						this.dialogFormVisible = false
+					},
+					query() {
+						//alert(localStorage.getItem("loginNickName"))
+						axios.get('http://localhost:8080/EShoppingMallBackstage/orders/queryOrdersByUserId.action', {
+							params: {
+								userId: localStorage.getItem("loginId")
+							}
+						}).then(response => {
+							this.orderlist = response.data;
+							if (response.data == '') {
+								$("#noorderlist").css("display", "block");
+							}
+						})
+					},
+					openCenter() {
+						alert('功能未开发')
+					},
+					//退出登陆
+					exitLogin() {
+						localStorage.removeItem("loginNickName");
+						localStorage.removeItem("loginId");
+						location.href = "main_index.html";
+					},
+					//购物车访问
+					shoppingCar() {
+						if (localStorage.getItem("loginNickName") == null) {
+							location.href = "login-cloud.html";
+						} else {
+							location.href = "shoppingCart.html";
+						}
+					},
+					// 搜索栏验证用户是否输入内容
+					confirmValid() {
+						if (this.key != "") {
+							this.isKey = false;
+						}
+					},
+					//模糊查询商品
+					mohu() {
+						var _t = encodeURI(encodeURI(this.key));
+						location.href = "goods_show.html?key=" + _t;
+					},
+					queryProductMsgByPD() {
+						axios.get('http://localhost:8080/EShoppingMallBackstage/orders/queryProductMsgByPD.action', {
+							params: {
+								productDescription: this.productDescription
+							}
+						}).then(response => {
+							this.orderlist = response.data;
+							if (response.data == '') {
+								$("#noorderlist").css("display", "block");
+							}
+						})
+					}
+				},
+				mounted() {
+					this.query()
+
+				}
+			})
+		</script>
+	</body>
+</html>

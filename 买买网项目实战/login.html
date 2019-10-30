@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>管理员注册</title>
+		<!-- 标题栏图标设置 -->
+		<link rel='icon' href='img/title_logo.ico' type='image/x-ico' />
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<!-- 引入组件库 -->
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<style>
+			*{
+		padding: 0;
+		margin: 0;
+	}
+	body{
+		background-image: linear-gradient(to bottom right, #991715, #991715);
+	}
+#wai {
+	/* background-image: linear-gradient(to bottom right, #17c9e5, #c41ddf); */
+	/* background-color: darkorange; */
+	/* background: url(img/16.png); */
+	/* background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-attachment: fixed; */
+}
+
+#nei {
+	width: 500px;
+	height: 600px;
+	/* background-color: aliceblue; */
+	position: relative;
+	left: 700px;
+	top: 120px;
+	opacity: 0.6;
+}
+
+#right {
+	float: right;
+	width: 500px;
+	height: 540px;
+	background-color: #F0F8FF;
+}
+
+#register {
+	float: left;
+	width: 200px;
+	height: 50px;
+	/* background-color: aqua; */
+	position: relative;
+	left: 50px;
+	top: 50px
+}
+
+#a {
+	font-size: 28px;
+	font-weight: 900;
+}
+
+#touxiang {
+	float: right;
+	width: 200px;
+	height: 170px;
+	/* background-color: chartreuse; */
+	position: relative;
+	right: 10px;
+	top: 10px;
+}
+
+#lianjie {
+	float: right;
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 0px 170px 90px 0px;
+	border-color: transparent red;
+	/* background-color: aqua; */
+}
+
+#username {
+	float: left;
+	width: 400px;
+	height: 40px;
+	/* background-color: aqua; */
+	position: relative;
+	left: 50px;
+	top: -20px;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+#username1 {
+	font-size: 20px;
+}
+
+#telephone {
+	float: left;
+	width: 400px;
+	height: 40px;
+	/* background-color: aqua; */
+	position: relative;
+	left: 50px;
+	top: 10px;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+#telephone1 {
+	font-size: 20px;
+}
+
+#password {
+	float: left;
+	width: 400px;
+	height: 50px;
+	/* background-color: aqua; */
+	position: relative;
+	left: 50px;
+	top: 40px;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+#password1 {
+	font-size: 20px;
+}
+
+#ConfirmPassword {
+	float: left;
+	width: 400px;
+	height: 50px;
+	/* background-color: aqua; */
+	position: relative;
+	left: 50px;
+	top: 70px;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+#ConfirmPassword1 {
+	font-size: 20px;
+}
+#back {
+	float: left;
+	width: 120px;
+	height: 60px;
+	/* background-color: FF3300; */
+	position: relative;
+	left: 90px;
+	top: 110px
+}
+
+#back1 {
+	width: 120px;
+	height: 60px;
+	border-radius: 12px;
+	background-color: #DEDEDE;
+	font-size: 30px;
+	font-weight: 900;
+}
+
+#confirm {
+	float: left;
+	width: 120px;
+	height: 60px;
+	/* background-color: FF3300; */
+	position: relative;
+	left: 150px;
+	top: 110px
+}
+
+#confirm1 {
+	width: 120px;
+	height: 60px;
+	border-radius: 12px;
+	background-color: #E63D00;
+	font-size: 30px;
+	font-weight: 900;
+}
+</style>
+	</head>
+	<body>
+		<div id="wai">
+			<div id="nei">
+				<div id="right">
+					<div id="register">
+						<span id="a">请填写注册信息</span>
+					</div>
+					<div id="touxiang">
+						<div id="lianjie"></div>
+					</div>
+
+					<div id="username">
+						姓 &nbsp;&nbsp;名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="username1" type="text" name="username" v-model="adminName"
+						 @blur="yanzheng()" placeholder="请输入姓名/昵称" style="height: 30px; width: 280px">
+						<!-- <span id="name" v-show="adminName==''">用户名不能为空</span> -->
+						<span id="name"></span>
+					</div>
+
+					<div id="telephone">
+						电话号码：&nbsp; <input id="telephone1" type="text" name="telephone" placeholder="请输入电话号码" v-model="adminMobile" style="height: 30px; width: 280px">
+						<span id="tel"></span>
+					</div>
+
+					<div id="password">
+						密 &nbsp;&nbsp;码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="password1" type="text" name="password" placeholder="请输入密码"
+						 @blur="yanzheng2()" v-model="adminPassword" style="height: 30px; width: 280px"> <span id="pwd"></span>
+					</div>
+
+					<div id="ConfirmPassword">
+						确认密码：&nbsp; <input id="ConfirmPassword1" type="text" name="ConfirmPassword" @blur="yanzheng3()" placeholder="请重新输入密码"
+						 v-model="ConfirmPassword" style="height: 30px; width: 280px">
+						<span id="repwd"></span>
+
+					</div>
+
+					<div id="back">
+						<a href="login.html"><input type="submit" id="back1" value="返  回" /></a>
+					</div>
+
+					<div id="confirm">
+						<input type="submit" id="confirm1" value="确  认" @click="register()" :disabled="isSubmit" />
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el: '#wai',
+				data: {
+					adminName: "",
+					adminPassword: "",
+					adminMobile: "",
+					isSubmit: true,
+					ConfirmPassword: ""
+				},
+				methods: {
+					yanzheng() {
+						if (this.adminName == "") {
+							// $("#name").text("用户名不能为空");
+							alert("用户名不能为空")
+						} else {
+							$("#name").empty();
+						}
+					},
+					yanzheng2() {
+						if (this.adminPassword == "") {
+							alert("密码不能为空")
+						} else {
+							$("#pwd").empty();
+						}
+
+					},
+					yanzheng3() {
+						if (this.adminPassword != this.ConfirmPassword) {
+							// $("#repwd").text("两次密码不一致");
+							alert("两次密码不一致")
+						} else {
+							$("#repwd").empty();
+						}
+
+						if (this.adminName != "" && this.adminPassword != "" && this.adminPassword == this.ConfirmPassword) {
+							this.isSubmit = false;
+						}
+					},
+					register() {
+						axios.get('http://localhost:8080/EShoppingMallBackstage/test/register.action', {
+							params: {
+								adminName: this.adminName,
+								adminPassword: this.adminPassword,
+								adminMobile: this.adminMobile,
+							}
+						}).then(response => {
+							if (response.data.msg == "该用户名已存在") {
+								alert(response.data.msg);
+								// document.getElementById("tishi").value=response.data.msg;
+							} else if (response.data.msg == "请更换电话号码") {
+								// document.getElementById("tishi").value=response.data.msg;
+								alert(response.data.msg);
+							} else if (response.data.msg == "注册成功") {
+								alert(response.data.msg);
+								location.href = "login.html";
+							}
+							// this.$toast().clear();
+						})
+
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

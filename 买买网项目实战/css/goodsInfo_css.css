@@ -1,0 +1,120 @@
+#shopping_market .top .search {
+	width: 1200px;
+	margin: 0 auto;
+	height: 120px;
+	position: relative;
+}
+
+/* 商品详情样式开始 */
+#shopping_market .middle {
+	width: 100%;
+	height: 400px;
+}
+
+#shopping_market .middle .content {
+	width: 1200px;
+	height: 400px;
+	margin: 0 auto;
+	position: relative;
+}
+
+#shopping_market .middle .content .leftImg {
+	width: 250px;
+	height: 300px;
+	border: 1px #999 solid;
+	position: absolute;
+	margin: 30px;
+	float: left;
+}
+
+#shopping_market .middle .content .rightInfo {
+	float: left;
+	width: 500px;
+	height: 400px;
+	position: absolute;
+	left: 330px;
+	top: 30px;
+}
+
+#shopping_market .middle .content .rightInfo .title_or_info {
+	width: 100%;
+	height: 50px;
+	color: #000000;
+}
+
+#shopping_market .middle .content .rightInfo .price {
+	width: 100%;
+	height: 50px;
+	background-color: #e9e9e9;
+	margin-top: 30px;
+	line-height: 50px;
+	
+}
+#shopping_market .middle .content .rightInfo .price >span{
+	color: #FF0000;
+	font-weight: bold;
+	font-size: 16px;
+	margin-left: 20px;
+}
+#shopping_market .middle .content .rightInfo .goodsNum {
+	width: 100%;
+	height: 50px;
+	margin-top: 30px;
+	line-height: 50px;
+}
+
+#shopping_market .middle .content .rightInfo .sure_btn {
+	position: absolute;
+	top: 250px;
+	left: 145px;
+}
+
+/* 评论列表样式开始 */
+#shopping_market .comments {
+	width: 100%;
+	height: 1200px;
+	/* background-color: rgb(242, 242, 242); */
+}
+
+#shopping_market .comments .comments_body {
+	width: 800px;
+	height: 1200px;
+	margin: 0 auto;
+	/* background-color: olive; */
+}
+
+#shopping_market .comments .comments_body .leiji {
+	width: 100%;
+	height: 30px;
+	background-color: rgb(255, 0, 54);
+	color: white;
+	font-weight: bold;
+	font-size: 15px;
+	line-height: 30px;
+	padding-left: 20px;
+}
+
+#shopping_market .comments .comments_body ul>li {
+	width: 100%;
+	height: 120px;
+	border-bottom: 1px #ccc solid;
+	color: #333;
+	position: relative;
+	padding-left: 20px;
+}
+
+#shopping_market .comments .comments_body ul>li p {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+#shopping_market .comments .comments_body ul>li .nick_name{
+	/* margin-top: 5px; */
+	position: absolute;
+	top: 50px;
+	right: 100px;
+}
+#shopping_market .comments .comments_body ul>li .comment_time{
+	position: absolute;
+	bottom: 10px;
+	color: #999;
+}

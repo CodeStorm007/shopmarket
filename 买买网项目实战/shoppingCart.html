@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>购物车</title>
+		<!-- 标题栏图标设置 -->
+		<link rel='icon' href='img/title_logo.ico' type='image/x-ico' />
+		<link rel="stylesheet" href="css/carts.css">
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" language="JavaScript">
+			$(document).ready(function() {
+				// window.history.forward(1);
+				window.history.forward(-1);
+			});
+			var u = localStorage.getItem("loginNickName");
+			if (u != null) {
+				$(function() {
+					$("#aa").append("<a>退出登陆</a>");
+					$("#loginName").empty();
+					$("#loginName").text("欢迎您，" + u);
+					$("#order").append("<a href='order.html'>我的订单</a>");
+				});
+				// location.href="login-cloud.html";
+			}
+		</script>
+	</head>
+	<body>
+		<div id="cart">
+			<section class="cartMain">
+				<div class="cartMain_hd">
+					<div id="menu">
+						<div id="menu_hello">
+							<ul>
+								<!-- <li>欢迎您，</li> -->
+								<li id="loginName"><a href="login-cloud.html">请登录</a></li>
+								<li><a href="register.html">免费注册</a></li>
+								<li id="aa" @click="exitLogin"></li>
+								<li @click="shoppingCar()">购物车</li>
+								<li id="order"></li>
+							</ul>
+						</div>
+					</div>
+					<div id="search">
+						<div id="search_logo">
+							<a href="main_index.html"><img src="img/logo.png" alt="买买网" title="点我有惊喜"></a>
+						</div>
+						<div id="search_top"><input type="text" v-model="key" placeholder="请输入商品名" ><button value="搜索" @click="mohu">搜索</button>
+						</div>
+					</div>
+					<ul class="order_lists cartTop">
+						<!--所有商品全选-->
+						<li class="list_chk">
+							<input type="checkbox" id="all" class="whole_check">
+							<label for="all" :class="status?'mark':''" @click="cartchoose()"></label>
+							全选
+						</li>
+						<li class="list_con">商品信息</li>
+						<li class="list_info">商品参数</li>
+						<li class="list_price">单价</li>
+						<li class="list_amount">&nbsp;&nbsp;&nbsp;数量</li>
+						<li class="list_sum">金额</li>
+						<li class="list_op">操作</li>
+					</ul>
+				</div>
+				<div class="order_content">
+					<ul class="order_lists" v-for="(item,index) in productList">
+						<div class="back_1"></div>
+						<li class="list_chk">
+							<!-- <img v-if="item.selected" class="list_icon" @click="radios(index)" src="img/radio_show.png" />
+						<img v-else="!item.selected" class="list_icon" @click="radios(index)" src="img/radio_none.png" />
+						 -->
+							<!-- <input type="checkbox" id="checkbox_2" class="son_check"  src="img/radio_show.png"> -->
+							<label for="checkbox_2" :class="item.checked?'mark':''" @click="choose(item)"></label>
+						</li>
+						<li class="list_con">
+							<div class="list_img"><a href="javascript:;"><img width="50px" :src=`http://localhost:8080/img/${item.img}` alt="图片未找到" /></a></div>
+							<div class="list_text">
+								<a href="javascript:;">{{item.proName}}</a><br />
+								<img src="img/xcard4.png" title="银联支付" />
+								<img src="img/7day.png" title="7天内无条件退换" />
+								<img src="img/wuyou.png" title="消费者保障服务，商家承若如实描述" />
+							</div>
+						</li>
+						<li class="list_info">
+							<p>{{item.info}}</p>
+						</li>
+						<li class="list_price">
+							<p class="price">￥{{item.proPrice}}</p>
+							<div class="charge">
+								<p>更多促销</p>
+								<div class="chargebox">
+									测试
+								</div>
+							</div>
+						</li>
+						<li class="list_amount">
+							<div class="amount_box">
+								<!--                            <span><a href="#" @click="item.proNum>0?item.proNum--:''">-</a></span><p>&nbsp;</p><strong>{{item.proNum}}</strong><span><a href="#" @click="item.proNum++">+</a></span>
+ -->
+								<a href="javascript:;" class="reduce reSty" @click="reduce(item)">-</a>
+								<input type="number" v-model="item.proNum" class="sum" v-on:input="calculate(item)">
+								<a href="javascript:;" class="plus" @click="add(item)">+</a>
+							</div>
+						</li>
+						<li class="list_sum">
+							<p class="sum_price">￥{{item.sum}}</p>
+						</li>
+						<li class="list_op">
+							<p class="collect"><a href="javascript:;" class="colBtn">收藏商品</a></p>
+							<p class="del"><a href="javascript:;" class="delBtn" @click="delShopCart(item, index)">移除商品</a></p>
+							<p class="custom"><a href="javascript:;" class="cusBtn">定制商品</a></p>
+							<div class="custombox">
+								测试
+							</div>
+						</li>
+						<div class="bar-wrapper">
+							<div class="bar-right">
+								<div class="piece">已选商品<strong class="piece_num">{{allnum}}</strong>件</div>
+								<div class="totalMoney">共计: <strong class="total_text">￥{{allsum}}</strong></div>
+								<div class="calBtn"><button @click="commit(item,index)"><a>结算</a></button></div>
+							</div>
+					</ul>
+				</div>
+		</div>
+		<!--底部-->
+		</section>
+		<section class="model_bg"></section>
+		<section class="my_model">
+			<p class="title">删除宝贝<span class="closeModel">X</span></p>
+			<p>您确认要删除该宝贝吗？</p>
+			<div class="opBtn"><a href="javascript:;" class="dialog-sure">确定</a><a href="javascript:;" class="dialog-close">关闭</a></div>
+		</section>
+		<!-- 底部开始 -->
+		<div class="bottom">
+			<div class="bottom_content">
+				<div class="find_me">
+					<ul>
+						<li><a href="javascript:;">关于本网</a></li>
+						<li><a href="javascript:;">帮助中心</a></li>
+						<li><a href="javascript:;">开放平台</a></li>
+						<li><a href="javascript:;">诚聘英才</a></li>
+						<li><a href="javascript:;">联系我们</a></li>
+						<li><a href="javascript:;">网站合作</a></li>
+						<li><a href="javascript:;">法律声明</a></li>
+						<li><a href="javascript:;">隐私保护</a></li>
+						<li><a href="javascript:;">举报入口</a></li>
+					</ul>
+				</div>
+				<div class="loyer">
+					Copyright &copy; 2019 - 9012 买买 maimai.com 版权所有
+				</div>
+			</div>
+		</div>
+		</div>
+		<script>
+			new Vue({
+				el: '#cart',
+				data: {
+					key:"",
+					productList: [],
+					status: false, //全选选中状态
+					allsum: 0, //总计价格
+					allnum: 0, //总计数量
+				},
+				methods: {
+					//退出登陆
+					exitLogin() {
+						localStorage.removeItem("loginNickName");
+						localStorage.removeItem("loginId");
+						location.href = "main_index.html";
+					},
+					//购物车访问
+					shoppingCar() {
+						if (localStorage.getItem("loginNickName") == null) {
+							location.href = "login-cloud.html";
+						} else {
+							location.href = "shoppingCart.html";
+						}
+					},
+					commit(item, index) {
+						// debugger;
+						if (item.checked) {
+							axios.get('http://localhost:8080/EShoppingMallBackstage/orders/addOrders.action', {
+								params: {
+									userId: localStorage.getItem("loginId"),
+									orderQuantity: item.proNum,
+									productId: item.protId,
+								}
+							}).then(response => {
+								if (response.data == 1) {
+									alert("下单成功，如需查看，请到-我的订单-");
+									axios.get('http://localhost:8080/EShoppingMallBackstage/delete.action', {
+										params: {
+											userid: localStorage.getItem("loginId"),
+											productId: item.protId
+										}
+									}).then(response => {
+										location.href = "shoppingCart.html";
+									})
+								}
+							})
+						}
+					},
+					//模糊查询商品
+					mohu() {
+						var _t = encodeURI(encodeURI(this.key));
+						location.href = "goods_show.html?key=" + _t;
+					},
+					delShopCart(item, index) {
+						if (confirm("确定要移除所选吗")) {
+							axios.get('http://localhost:8080/EShoppingMallBackstage/delete.action', {
+								params: {
+									userid: localStorage.getItem("loginId"),
+									productId: item.protId
+								}
+							}).then(response => {
+								location.href = "shoppingCart.html";
+							})
+						}
+					},
+					choosetrue(item) {
+						item.checked = true
+						// ++item.choose//将商品选中状态改为true
+
+						// item.checked?++item.choose===this.productList.length?this.status=true:this.status=false:''//这里执行了两部，选中商品数量先+1，再与该店铺商品数量比较，如果相等就更改店铺选中状态为true
+
+						// ++item.choose===item.length?item.check=true:''//这里执行了两部，选中商品数量先+1，再与该店铺商品数量比较，如果相等就更改店铺选中状态为true
+						this.allsum += item.sum
+						this.allnum += item.proNum
+					},
+					choosefalse(item) {
+						item.checked = false //将商品选中状态改为false
+						// --item.choose//选中商品数量-1
+						// if(item.checked){//如果店铺是被选中的，更改店铺选中状态
+						//      this.status=false//
+						//      --this.item.choose//并且选中店铺数量-1
+						//  }
+						// 无论之前全选的状态，将其改为false就行
+						this.allsum -= item.sum
+						this.allnum -= item.proNum
+					},
+					choose(item) {
+						!item.checked ? this.choosetrue(item) : this.choosefalse(item)
+					},
+					cartchoose() {
+						this.status = !this.status //取反改变状态   
+						this.status ?
+							this.productList.forEach((item) => this.choosetrue(item)) :
+							this.productList.forEach((item) => this.choosefalse(item)) //根据取反后的状态进行相应的按钮操作   
+					},
+					add(item) {
+						item.proNum++
+						item.sum += item.proPrice
+						if (item.checked) {
+							this.allnum++
+							this.allsum += item.proPrice
+						}
+					},
+					reduce(item) {
+						if (item.proNum === 1) return
+						item.proNum--
+						item.sum -= item.proPrice
+						if (item.checked) {
+							this.allnum--
+							this.allsum -= item.proPrice
+						}
+					},
+					calculate(item) {
+						let oldsum = item.sum //之前的总价
+						let oldnum = oldsum / item.proPrice //之前的数量
+						item.proNum = parseInt(item.proNum)
+						item.proNum > 0 ? item.sum = item.proNum * item.proPrice : item.proNum = oldnum //如果输入数量大于0，计算价格，否则返回之前的数量
+						let diffsum = item.sum - oldsum //差价
+						let diffnum = item.proNum - oldnum //差量
+						if (item.checked) { //如果商品被选中                        
+							this.allsum += diffsum //计算总价
+							this.allnum += diffnum //计算总量
+						}
+					}
+				},
+				created() {
+					axios.get('http://localhost:8080/EShoppingMallBackstage/getByUserIdQueryCart.action', {
+						params: {
+							userId: localStorage.getItem("loginId"),
+						}
+					}).then(response => {
+						this.productList = response.data.data;
+					})
+				}
+				// 	axios.get('http://localhost:8080/EShoppingMallBackstage/getByUserIdQueryCart.action', {
+				// 		params: {
+				// 			userid: 1,
+				// 		}
+				// 	}).then(response => {
+				// 		this.productList = response.data.data;
+				// 	})
+				// }
+			});
+		</script>
+	</body>
+</html>

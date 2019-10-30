@@ -1,0 +1,53 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	position: relative;
+}
+
+#main{
+	border: 1px solid #3972a2;
+	background-image: linear-gradient(to bottom right, #f5e8e8,#3971a0);
+	text-align: center;
+	width:500px;
+	height:300px;
+	position: absolute;
+	top: 150px;
+	left: 470px;
+	opacity:3;
+	box-shadow: 6px 6px 5px #000;
+}
+#s{
+	line-height:60px;
+	text-align:center ;
+	width: 100%;
+	height: 60px;
+	color:#000; 
+	text-shadow: 2px 3px 2px #0078FF;
+	letter-spacing:15px;
+	font-weight: bolder;
+	font-family: "宋体";
+}
+#z{
+	margin-top:5px ;
+	width: 100% ;
+	
+}
+#inout{
+	margin-bottom: 20px;
+}
+#password{
+	margin-bottom: 20px;
+}
+#button{
+	margin-left:18px ;
+	margin-bottom: 18px;
+}
+.el-button--danger{
+	background-color:#ff4400;
+}
+#mpanel1{
+	width: 70%;
+	margin: auto;
+}
